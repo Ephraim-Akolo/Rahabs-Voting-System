@@ -5,7 +5,7 @@ Django
 gunicorn==21.2.0
 packaging==23.2
 psycopg2-binary==2.9.9
-python-dotenv==1.0.0
-sqlparse==0.4.4
-typing_extensions==4.8.0
-whitenoise==6.6.0
+python-dotenv
+sqlparse
+typing_extensions
+whitenoise
