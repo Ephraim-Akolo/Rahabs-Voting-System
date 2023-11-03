@@ -1,0 +1,114 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: poppins;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: 0;
+}
+
+.container {
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 1000px;
+    text-align: center;
+}
+
+/* on verification success use code to make display block for container.success and none for container*/
+.container.success {
+    position: absolute;
+    display: none;
+}
+
+.container.success h1 {
+    color: green;
+}
+
+#codeContainer {
+    display: block;
+}
+
+.boxes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+#codeContainer input:focus-visible {
+    outline-color: #0AA91A;
+}
+
+.code {
+    caret-color: transparent;
+    background-color: rgba(255, 255, 255, .6);
+    border-radius: 10px;
+    border: 2px solid #000;
+    font-size: 30px;
+    font-family: poppins;
+    width: 75px;
+    height: 80px;
+    margin: 10px;
+    text-align: center;
+    font-weight: 300;
+}
+
+@media(max-width: 600px) {
+
+    #codeContainer {
+        flex-wrap: wrap;
+    }
+
+    .code {
+        font-size: 24px;
+        height: 50px;
+        max-width: 50px;
+        font-size: bold;
+    }
+}
+
+.code::-webkit-inner-spin-button,
+.code::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.code:valid {
+    border-color: green;
+    box-shadow: 0 10px 10px -5px rgba(0, 0, 0, .25);
+}
+
+.btnn {
+    font-family: poppins;
+    min-width: 400px;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    margin: 0px 0px 20px 0px;
+    padding: .775rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: .7;
+}
+
+.btnn a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.btnPrimary {
+    color: #fff;
+    background-color: green;
+    border-color: green;
+    width: max-content;
+}

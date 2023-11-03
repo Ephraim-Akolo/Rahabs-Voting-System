@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+
+    <div class="hero"></div>
+
+    <select class="selector" style="margin-left: 5%;">
+        <option value="" class="option" style="--i:4">Sort by</option>
+        <option value="" class="option" style="--i:4">State</option>
+        <option value="" class="option" style="--i:4">Party</option>
+        <option value="" class="option" style="--i:4">Date</option>
+        <option value="" class="option" style="--i:4">Vote Status</option>
+    </select>    
+
+
+
+    <table>
+            
+    
+        <tr>
+            <th>ID</th>
+            <th>PARTY</th>
+            <th>STATE / LGA</th>
+            <th>STATUS</th>
+        </tr>
+        <tr>
+            <td>BY/2023/1234</td>
+            <td>PDP</td>
+            <td>Bayelsa / Yenagoa</td>
+            <td>VOTED</td>
+        </tr>
+        <tr>
+            <td>ABJ/2023/1234</td>
+            <td>SDP</td>
+            <td>Abuja / FCT</td>
+            <td>VOTED</td>
+        </tr>
+        <tr>
+            <td>KAN/2023/1234</td>
+            <td>NPP</td>
+            <td>Kano / Kano</td>
+            <td class="not">NOT VOTED</td>
+        </tr>
+        <tr>
+            <td>ADA/2023/1234</td>
+            <td>APC</td>
+            <td>Adamawa / Yola</td>
+            <td>VOTED</td>
+        </tr>
+        <tr>
+            <td>BAU/2023/1234</td>
+            <td>PDP</td>
+            <td>Bauchi / Bauchi</td>
+            <td class="not">NOT VOTED</td>
+        </tr>
+        <tr>
+            <td>BY/2023/1234</td>
+            <td>PDP</td>
+            <td>Bayelsa / Yenagoa</td>
+            <td>VOTED</td>
+        </tr>
+        <tr>
+            <td>ABJ/2023/1234</td>
+            <td>SDP</td>
+            <td>Abuja / FCT</td>
+            <td>VOTED</td>
+        </tr>
+        <tr>
+            <td>KAN/2023/1234</td>
+            <td>NPP</td>
+            <td>Kano / Kano</td>
+            <td class="not">NOT VOTED</td>
+        </tr>
+        <tr>
+            <td>ADA/2023/1234</td>
+            <td>APC</td>
+            <td>Adamawa / Yola</td>
+            <td>VOTED</td>
+        </tr>
+        <tr>
+            <td>BAU/2023/1234</td>
+            <td>PDP</td>
+            <td>Bauchi / Bauchi</td>
+            <td class="not">NOT VOTED</td>
+        </tr>
+        
+    </table>
+
+    
+    <div>
+        <a href="rahabVote.html" class="link ed">Click here to vote</a>
+    </div>
+
+{% endblock %}
+
+

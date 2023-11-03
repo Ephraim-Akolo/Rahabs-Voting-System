@@ -163,3 +163,4 @@ cython_debug/
 */*dataset*
 *AI
 *.venv2
+*dummies
