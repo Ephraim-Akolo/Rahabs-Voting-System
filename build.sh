@@ -6,4 +6,4 @@ pip install -r requirements.txt
 
 python manage.py collectstatic --no-input
 python manage.py migrate
-echo "from django.contrib.auth import get_user_model; import os; User = get_user_model(); True if User.objects.filter(email=f'{os.getenv("DJANGO_SUPERUSER_USERNAME")}') else User.objects.create_superuser(f'{os.getenv("DJANGO_SUPERUSER_USERNAME")}', f'{os.getenv("DJANGO_SUPERUSER_EMAIL")}', f'{os.getenv("DJANGO_SUPERUSER_PASSWORD")}')" | python manage.py shell
+echo "from django.contrib.auth import get_user_model; import os; password = os.getenv("DJANGO_SUPERUSER_PASSWORD"); user_name = os.getenv("DJANGO_SUPERUSER_USERNAME"); email = os.getenv("DJANGO_SUPERUSER_EMAIL"); User = get_user_model(); True if User.objects.filter(email=email) else User.objects.create_superuser(user_name, email, password)" | python manage.py shell
