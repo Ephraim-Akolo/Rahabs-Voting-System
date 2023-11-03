@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div>
+    {% include 'navbar.html' %}
+    <div >
+        <ul class="dropdown-content">
+            <li class="nav-item">
+                <div class="select-menu">
+                    <div class="select-btn" id="select-btn">
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+    </div>
+
+    <div class="position">
+        <div class="wrapper">
+            <div class="form-box login">
+                <h2 style="color:#0AA91A;">Vote</h2>
+                <form action="#">
+                    <div class="select-menu3">
+                        <div class="select-btn2" id="select-btn2">
+                            <a id="text2">Election type</a>
+                            <div class="caret2"></div>
+                        </div>
+                
+                        <ul class="list">
+                            <li class="option" style="--i:5;">
+                                <span class="option-text">Presidential</span>
+                            </li>
+                            <li class="option" style="--i:4;">
+                                <span class="option-text">Governorship</span>
+                            </li>
+                            <li class="option" style="--i:3;">
+                                <span class="option-text">Senatorial</span>
+                            </li>
+                            <li class="option" style="--i:2;">
+                                <span class="option-text">House of Representatives</span>
+                            </li>
+                            <li class="option" style="--i:1;">
+                                <span class="option-text">General Assembly</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="select-menu3 a">
+                        <div class="select-btn3" id="select-btn3">
+                            <a id="text3">Political Party</a>
+                            <div class="caret"></div>
+                        </div>
+                
+                        <ul class="list">
+                            <li class="option2" style="--i:5;">
+                                <span class="option-text">PDP</span>
+                            </li>
+                            <li class="option2" style="--i:4;">
+                                <span class="option-text">APC</span>
+                            </li>
+                            <li class="option2" style="--i:3;">
+                                <span class="option-text">SVG</span>
+                            </li>
+                            <li class="option2" style="--i:2;">
+                                <span class="option-text">APP</span>
+                            </li>
+                            <li class="option2" style="--i:1;">
+                                <span class="option-text">GAD</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="input-box" id="candidate-input">
+                        <span class="icon"></span>
+                        <input type="password" placeholder="Mohammad Buhari" readonly>
+                    </div>
+    
+                    <div class="input-box" id="voter-id">
+                        <span class="icon"></span>
+                        <input type="text" placeholder="Enter your voter ID" required>
+                    </div>
+
+                    <div class="input-box" id="voter-password">
+                        <span class="icon"></span>
+                        <input class="pWord" type="password" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button type="submit" class="register-link">Next</button>
+    
+                </form>
+            </div>
+    
+            <div class="form-box register">
+                <h2 style="color: #0AA91A; font-size: 1.4em;">Confirm your selection</h2>
+                <form action="#">
+                    <div class="select-menu3">
+                        <div class="select-btn2" id="select-btn2">
+                            <span class="eType">Election Type: <span class="eType1">Presidential</span></span>
+                        </div>
+                    </div>
+
+                    <div class="select-menu3 a">
+                        <div class="select-btn2" id="select-btn2">
+                            <span class="eType">Political Party: <span class="eType1">PDP</span></span>
+                        </div>
+                    </div>
+                       
+
+                    <div class="input-box" id="candidate-input">
+                        <span class="icon"></span>
+                        <input type="password" placeholder="Mohammad Buhari" readonly>
+                    </div>
+
+                    <div class="input-box" id="voter-id">
+                        <span class="icon"></span>
+                        <input class="voteID" type="text" placeholder="voter ID" readonly>
+                    </div>
+
+                    <div class="input-box" id="voter-password">
+                        <span class="icon"></span>
+                        <input class="pWord" type="password" placeholder="Reconfirm your password" required>
+                    </div>
+                    
+                    <button type="submit" class="login-link"><a href="webCam.html">Finish</a></button>
+    
+                </form>
+            </div>
+        </div>
+    
+    </div>
+   
+
+</div>
+
+{% endblock %}
