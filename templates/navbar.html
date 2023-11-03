@@ -2,24 +2,7 @@
 <nav>
     <label class="logo">Rahab</label>
     <ul class="dropdown-content">
-        <li class="nav-item"><a href="index.html" class="active hov">Home</a></li>
-        <li class="nav-item">
-            <div class="select-menu">
-                <div class="select-btn" id="select-btn">
-                    <a id="text" class="hov">Election</a>
-                    <div class="caret"></div>
-                </div>
-        
-                <ul class="list">
-                    <li class="option" style="--i:2;">
-                        <a href="rahabElect.html" class="option-text">Election Results</a>
-                    </li>
-                    <li class="option" style="--i:1;">
-                        <a href="rahabVote.html" class="option-text">Vote</a>
-                    </li>
-                </ul>
-            </div>
-        </li>
+        <li class="nav-item"><a href="{% url 'home' %}" class="active hov">Home</a></li>
         <button class="loginBtn scale"><a href="rahabLogin.html" style="color: white;">VOTE</a></button>
     </ul>
 
