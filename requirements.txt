@@ -1,11 +1,12 @@
 asgiref==3.7.2
 Brotli==1.1.0
 dj-database-url==2.1.0
-Django
+Django==4.2.7
 gunicorn==21.2.0
 packaging==23.2
+Pillow==10.1.0
 psycopg2-binary==2.9.9
-python-dotenv
-sqlparse
-typing_extensions
-whitenoise
+python-dotenv==1.0.0
+sqlparse==0.4.4
+typing_extensions==4.8.0
+whitenoise==6.6.0
