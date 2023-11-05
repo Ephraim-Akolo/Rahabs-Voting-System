@@ -29,5 +29,8 @@ def home(request):
 
 
 def vote(request):
-    return render(request, "website/vote.html")
+    context = {}
+    candidates = models.Candidate.objects.all()
+    context['candidates'] = candidates
+    return render(request, "website/vote.html", context=context)
 
