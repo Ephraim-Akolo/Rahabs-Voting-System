@@ -48,5 +48,5 @@ def otp_verify(request):
     print("dkjjjjjjjjjjjjjjjj")
     if request.method == 'POST':
         print("otp_verify", request.POST)
-        return render(request, 'website/success.html')
+        return render(request, 'website/success_page.html')
 
