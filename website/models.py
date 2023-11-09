@@ -1,6 +1,7 @@
-from typing import Any
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from datetime import datetime, timedelta
+import pytz
 
 # Create your models here.
 
@@ -54,3 +55,18 @@ class Election(models.Model):
     def __str__(self) -> str:
         return f'{self.user.username}'
 
+
+class OTP(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    party_name
+    otp = models.CharField(max_length=6)
+    expiry = models.IntegerField(default=5)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def is_valid(self):
+        if datetime.now(tz=pytz.UTC) > (self.created + timedelta(minutes=self.expiry)): 
+            return False
+        return True
+    
+    def __str__(self) -> str:
+        return f"{self.otp} : {self.user.username}"
