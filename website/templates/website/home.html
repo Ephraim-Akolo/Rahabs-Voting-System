@@ -10,7 +10,7 @@
     <form id="myForm" action="{% url 'home' %}" method="POST">
         {% csrf_token %}
         <input type="hidden" name="filter" id="filter">
-        <select id="mySelector" class="selector" style="margin-left: 5%;" onchange="submitForm()" >
+        <select id="mySelector" class="selector" style="margin-left: 5%; margin-top: 10%; width: fit-content;" onchange="submitForm()" >
             {% for option in options %}
             {% if forloop.counter == selected %}
             <option value="{{option}}" class="option" style="--i:4" selected >{{option}}</option>

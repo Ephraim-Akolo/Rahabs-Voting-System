@@ -1,3 +1,17 @@
+.wrapperVote {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 0 30px #0AA91A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: transform .5s ease, height .2s ease;
+    padding: 40px;
+}
 
 .select-menu3 {
     position: relative;
@@ -8,9 +22,7 @@
     margin-top: 15px;
 }
 
-
-.select-menu3 .select-btn2,
-.select-menu3 .select-btn3{
+select.list {
     position: relative;
     color:black;
     display: flex;
@@ -27,8 +39,37 @@
     background: #f2f2f2;
 }
 
-.select-menu3 .select-btn2:hover,
-.select-menu3 .select-btn3:hover  {
+select.list option:not(:first-child) {
+    text-align: center;
+    font-size: 16px;
+}
+
+
+
+#list {
+    margin-top: 20px;
+}
+
+.select-menu3 #select-btn2,
+.select-menu3 #select-btn3{
+    position: relative;
+    color:black;
+    display: flex;
+    border-radius: 5px;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: 600;
+    width: 100%;
+    border-radius: 10px;
+    background: #f2f2f2;
+}
+
+.select-menu3 #select-btn2:hover,
+.select-menu3 #select-btn3:hover  {
     color: #0AA91A;
 }
 
@@ -45,7 +86,7 @@
     transition: .5s ease;
 }
 
-.select-btn2 .caret2{
+#select-btn2 .caret2{
     width:0;
     height: 0;
     border-left: 5px solid transparent;
@@ -68,8 +109,8 @@
     list-style: none;
 }
 
-.select-btn2.active~.list,
-.select-btn3.active~.list{
+#select-btn2.active~.list,
+#select-btn3.active~.list{
     transition: 1s ease-in-out;
     border-radius: 10px;
     opacity: 1;
@@ -92,19 +133,42 @@
     list-style: none;
 }
 
-.position {
+.positionVote {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
 }
 
+.next {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 45px;
+}
+
+.input1 input {
+    width: 100%;
+    height: 45px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px;
+    border-radius: 10px;
+    display: block;
+    margin-top: 20px;
+}
+
+select {
+    width: 100%;
+}
+
+
 @media screen and (max-width:768px) {
-    .wrapper {
-        width: 80%;
+    .wrapperVote {
+        width: fit-content;
     }
 
-    .position {
+    .positionVote {
         min-height: 60vh;
     }
 }

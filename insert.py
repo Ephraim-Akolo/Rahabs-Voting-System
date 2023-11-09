@@ -12,6 +12,7 @@ def insert_political_parties():
     ]
 
     for data in data_to_insert:
+        print(f"updating {data['name']}... ")
         PoliticalParty.objects.create(**data)
 
 def insert_states_and_lga(max_lga=5, ignore_states=[]):

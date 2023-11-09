@@ -58,7 +58,6 @@ class Election(models.Model):
 
 class OTP(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    party_name
     otp = models.CharField(max_length=6)
     expiry = models.IntegerField(default=5)
     created = models.DateTimeField(auto_now_add=True)

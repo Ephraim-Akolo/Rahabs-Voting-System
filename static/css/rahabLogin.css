@@ -1,11 +1,4 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'poppins', sans-serif;
-}
-
-body{
+body.body{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,14 +6,10 @@ body{
     background-size: auto;
     background-repeat: no-repeat;
     background-position: center;
+    background-image: url('img/forest.png');
 }
 
-.btn {
-    text-decoration: none;
-    color: #fff;
-}
-
-.wrapper{
+.wrapperLogin{
     position: relative;
     width: 400px;
     height: fit-content;
@@ -36,26 +25,26 @@ body{
 }
 
 
-.wrapper .form-box{
+.wrapperLogin .form-boxLogin{
     width: 100%;
     padding: 40px;
 }
-.wrapper .form-box.login{
+.wrapperLogin .form-boxLogin.login{
     transition: transform .18s ease;
     transform: translateX(0);
 }
-.wrapper.active .form-box.login{
+.wrapperLogin.active .form-boxLogin.login{
     transition: none;
     transform: translateX(-400px);
 }
 
-.form-box h2{
+.form-boxLogin h2{
     font-size: 2em;
     color: #000;
     text-align: center;
 }
 
-.input-box{
+.input-boxLogin {
     position: relative;
     width: 100%;
     height: 50px;
@@ -63,7 +52,7 @@ body{
     margin: 20px 0;
 }
 
-.input-box input{
+.input-boxLogin input{
     width: 100%;
     height: 100%;
     background: transparent;
@@ -76,7 +65,7 @@ body{
     z-index: 1;
 }
 
-.input-box .icon{
+.input-boxLogin .iconLogin{
     position: absolute;
     right: 8px;
     font-size: 1.2em;
@@ -106,7 +95,7 @@ body{
     text-decoration: underline;
 }
 
-.btn{
+.btnLogin{
     width: 100%;
     height: 45px;
     background: #0AA91A;
@@ -119,7 +108,7 @@ body{
     font-weight: 500;
 }
 
-.btn:hover {
+.btnLogin:hover {
     transform: scale(.98);
 }
 
@@ -147,7 +136,7 @@ body{
 }
 
 @media(max-width:320px) {
-    .wrapper {
+    .wrapperLogin {
         width: 70vw;
         height: 65vh;
         font-size: 12px;
@@ -167,16 +156,16 @@ body{
         color: #0AA91A;
     }
 
-    .wrapper .form-box {
+    .wrapperLogin .form-boxLogin {
         padding: 20px;
     }
-    .btn {
+    .btnLogin {
         height: 30px;
     }
 }
 
 @media(max-width:375px) {
-    .wrapper {
+    .wrapperLogin {
         width: 70vw;
         height: 65vh;
         font-size: 12px;

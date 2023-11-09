@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form id="cameraForm"  method="POST" action="{% url 'facials' %}">
+        {% csrf_token %}
+        <div class="video">
+            <div id="overlay" class="overlay"></div>
+            
+            <video id="cameraFeed"  autoplay></video>
+            <!-- <button type="button">Take Photo</button> -->
+            <canvas id="photoCanvas" style="display: none;"></canvas>
+            <input type="hidden" id="photoInput" name="photo" required>
+        </div>
+        <div class="links">
+            <button type="submit">Upload Photo</button>
+        </div>
+        
+      </form>
+
+    <!-- <div class="video">
+        <div id="overlay" class="overlay"></div>
+        <h4> please fit your face into the box </h4>
+        <video id="webCam" autoplay playsinline></video>
+        <span class="spanErrorMsg"></span>
+
+    </div> -->
+    
+    <!-- <div class="links">
+        <button id="snap">Capture</button>        
+    </div> -->
+    
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .video {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            margin: 20px;
+        }
+
+        .links{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button {
+            padding: 10px;
+            background-color: green;
+            width: fit-content;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            border: 2px solid black;
+        }
+
+        button:hover {
+            transform: scale(1.02);
+            cursor: pointer;
+        }
+
+        .down {
+            display: none;
+            margin-right: 3.5%;
+        }
+
+        .overlay {
+            display: none;
+            position: absolute;
+            z-index: 10;
+            
+            width: 300px;
+            height: 300px;
+           border: 2px solid green;
+        }
+
+        h4 {
+            position: absolute;
+            color: aliceblue;
+            margin-top: 47%;
+        }
+
+
+    </style>
+    
+
+
+    <script>
+        async function setupCamera() {
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            const video = document.getElementById('cameraFeed');
+            video.srcObject = stream;
+          } catch (error) {
+            console.error('Error accessing camera:', error);
+          }
+        }
+    
+        function captureImage() {
+          const video = document.getElementById('cameraFeed');
+          const canvas = document.getElementById('photoCanvas');
+          const photoInput = document.getElementById('photoInput');
+    
+          // Draw the current video frame onto the canvas
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+          // Convert the canvas content to a data URL representing the image
+          const imageDataUrl = canvas.toDataURL('image/jpeg');
+    
+          // Set the data URL as the value of the hidden input field
+          photoInput.value = imageDataUrl;
+          
+          // Optionally display the captured image on the page
+        //   const img = new Image();
+        //   img.src = imageDataUrl;
+        //   document.body.appendChild(img);
+        }
+
+        document.getElementById('cameraForm').addEventListener('submit', function(event) {
+        // Execute the extra function before submitting the form
+        captureImage();
+
+        // Optionally prevent the form from submitting immediately
+        // event.preventDefault();
+        });
+    
+        // Initialize the camera when the page loads
+        window.onload = setupCamera;
+      </script>
+
+{% endblock %}

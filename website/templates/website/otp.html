@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <h2>Verify your account</h2>
+        <p>We sent a six digit code to your email <br>
+        Enter the code below to confirm your email address</p>
+
+        <form id="codeContainer" action="{% url 'verify' %}" method="POST">
+            {% csrf_token %}
+            <div class="boxes">
+                <input name="first" type="number" class="code" min="0" max="9" required>
+                <input name="second" type="number" class="code" min="0" max="9" required>
+                <input name="third" type="number" class="code" min="0" max="9" required>
+                <input name="fourth" type="number" class="code" min="0" max="9" required>
+                <input name="fifth" type="number" class="code" min="0" max="9" required>
+            </div>
+            
+
+            <div>
+                <button type="submit" class="btnn btnPrimary" >Verify</button>
+            </div>
+        </form>
+
+       
+
+        <small>
+            Didn't receive a code? <strong><a href="#" style="color:green">RESEND</a></strong>
+        </small>
+
+    </div>
+{% endblock %}
