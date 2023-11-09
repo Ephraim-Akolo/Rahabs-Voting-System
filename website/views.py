@@ -31,7 +31,7 @@ def home(request):
 
 def vote(request):
     if request.method == 'POST':
-        # print(request.POST)
+        print(request.POST)
         return render(request, 'website/webCam.html')
     context = {}
     candidates = models.Candidate.objects.all()
@@ -48,5 +48,5 @@ def otp_verify(request):
     print("dkjjjjjjjjjjjjjjjj")
     if request.method == 'POST':
         print("otp_verify", request.POST)
-        return render(request, 'website/success_page.html')
+        return render(request, 'website/otp.html')
 
