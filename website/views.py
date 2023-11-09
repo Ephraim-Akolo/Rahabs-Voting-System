@@ -45,7 +45,8 @@ def facial_auth(request):
         return render(request, 'website/otp.html')
     
 def otp_verify(request):
+    print("dkjjjjjjjjjjjjjjjj")
     if request.method == 'POST':
-        # print(request.POST)
+        print("otp_verify", request.POST)
         return render(request, 'website/success.html')
 
