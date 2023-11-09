@@ -36,7 +36,6 @@ hiddenElements2.forEach((el) => observer.observe(el));
 //Dropdown Menus//
 const selectBtn = document.getElementById('select-btn');
 const selectBtn2 = document.getElementById('select-btn2');
-const selectBtn3 = document.getElementById('select-btn3');
 const text = document.getElementById('text2');
 const text3 = document.getElementById('text3');
 const option = document.getElementsByClassName('option');
@@ -49,9 +48,7 @@ selectBtn.addEventListener('click', function() {
 selectBtn2.addEventListener('click', function() {
     selectBtn2.classList.toggle('active');
 });
-selectBtn3.addEventListener('click', function() {
-    selectBtn3.classList.toggle('active');
-});
+
 
 for(a of option) {
     a.onclick = function() {
@@ -60,10 +57,5 @@ for(a of option) {
     }
 }
 
-for(b of option2) {
-    b.onclick = function() {
-        text3.innerHTML = this.textContent;
-        selectBtn3.classList.remove('active');
-    }
-}
+
 

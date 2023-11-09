@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <style>
+        * {
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: poppins;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    h1 {
+        color: green;
+    }
+    
+    div {
+        display: block;
+        text-align: center;
+    }
+    
+    a {
+        text-decoration: none;
+        color: rgb(40, 159, 40);
+        font-weight: 600;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+    </style>
+
+    <div id="verifySuccess" style="display: block;">
+        <img src="{% static '/img/icons8-checkmark-90.png' %}" alt="success">
+        <h1>Verification <span class="change">successful</span></h1>
+    
+        <p>click <a href="{% url 'home' %}">here</a> to go back</p>
+    </div>
+
+    <script>
+        setTimeout(function() {
+          window.location.href = "{% url 'home' %}";  // Replace with your actual URL or view name
+        }, 5000);  // 10000 milliseconds = 10 seconds
+    </script>
+
+{% endblock %}
+
