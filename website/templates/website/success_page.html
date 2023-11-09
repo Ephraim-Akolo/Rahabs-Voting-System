@@ -3,8 +3,13 @@
 {% load static %}
 
 {% block content %}
-
+    <div id="verifySuccess" style="display: block;">
+        <img src="{% static '/img/icons8-checkmark-90.png' %}" alt="success">
+        <h1>Verification <span class="change">successful</span></h1>
     
+        <p>click <a href="{% url 'home' %}">here</a> to go back</p>
+    </div>
+
 
 {% endblock %}
 
