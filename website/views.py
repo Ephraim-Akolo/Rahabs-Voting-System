@@ -11,7 +11,7 @@ def home(request):
     options = ['Date', "State", "Party"]
     selected = 1
     if request.method == "POST" and 'filter' in request.POST:
-        print("KKKKKKKKK", request.POST)
+        # print("KKKKKKKKK", request.POST)
         if request.POST.get('filter').lower()=='date':
             election = models.Election.objects.all().order_by('-date')
         elif request.POST.get('filter').lower()=='state':
@@ -31,7 +31,7 @@ def home(request):
 
 def vote(request):
     if request.method == 'POST':
-        print(request.POST)
+        # print(request.POST)
         return render(request, 'website/webCam.html')
     context = {}
     candidates = models.Candidate.objects.all()
@@ -41,11 +41,11 @@ def vote(request):
 
 def facial_auth(request):
     if request.method == 'POST':
-        print(request.POST)
+        # print(request.POST)
         return render(request, 'website/otp.html')
     
 def otp_verify(request):
     if request.method == 'POST':
-        print(request.POST)
+        # print(request.POST)
         return render(request, 'website/success.html')
 
