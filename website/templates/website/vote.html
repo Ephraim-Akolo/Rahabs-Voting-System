@@ -27,16 +27,18 @@
     
                     <div class="input-box" id="voter-id">
                         <span class="icon"></span>
-                        <input name="VoterID" type="text" placeholder="Enter your voter ID" required>
+                        <input name="voterID" type="text" placeholder="Enter your voter ID" required>
                     </div>
 
                     <div class="input-box" id="voter-password">
                         <span class="icon"></span>
-                        <input name="Password" class="pWord" type="password" placeholder="Enter your password" required>
+                        <input name="password" class="pWord" type="password" placeholder="Enter your password" required>
                     </div>
                     
                     <button id="submit-vote-btn" type="submit" class="register-link">Next</button>
             </form>
+            <br>
+            <a href="{% url 'recover' %}" style="color: green;">Recover password</a>
         </div>
     </div>
 

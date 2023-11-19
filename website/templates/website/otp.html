@@ -7,7 +7,7 @@
         <p>We sent a six digit code to your email <br>
         Enter the code below to confirm your email address</p>
 
-        <form id="codeContainer" action="{% url 'verify' %}" method="POST">
+        <form id="codeContainer" action="{% if recover_pasword %}{% url 'recover' %} {% else %} {% url 'verify' %}{% endif %}" method="POST">
             {% csrf_token %}
             <div class="boxes">
                 <input name="first" type="number" class="code" min="0" max="9" required>

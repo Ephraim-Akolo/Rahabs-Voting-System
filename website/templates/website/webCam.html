@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form id="cameraForm"  method="POST" action="{% url 'facials' %}">
+    <div id="loadingSpinner" style="display: none;text-align: center;">
+      <h3 style="color: green;">Please wait. <br> Matching your face data against database record...</h3>
+    </div>
+    <form  enctype="multipart/form-data" id="cameraForm"  method="POST" action="{% url 'facials' %}">
         {% csrf_token %}
         <div class="video">
             <div id="overlay" class="overlay"></div>
-            
             <video id="cameraFeed"  autoplay></video>
             <!-- <button type="button">Take Photo</button> -->
             <canvas id="photoCanvas" style="display: none;"></canvas>
-            <input type="hidden" id="photoInput" name="photo" required>
+            <input type="hidden" id="photoInput" name="image">
+            <input type="hidden" id="instance_id" name="instance_id" value="{{accred.id}}" required>
         </div>
         <div class="links">
             <button type="submit">Upload Photo</button>
@@ -88,52 +91,110 @@
 
 
     </style>
-    
 
+<script defer>
+  async function setupCamera() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const video = document.getElementById('cameraFeed');
+      video.style.transform = 'scaleX(-1)';
+      video.srcObject = stream;
+    } catch (error) {
+      console.error('Error accessing camera:', error);
+    }
+  }
 
-    <script>
-        async function setupCamera() {
-          try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            const video = document.getElementById('cameraFeed');
-            video.srcObject = stream;
-          } catch (error) {
-            console.error('Error accessing camera:', error);
-          }
+  function dataURLtoFile(dataURL, fileName) {
+    const arr = dataURL.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([new Blob([u8arr], { type: mime })], fileName, { type: mime });
+  }
+
+  function showLoadingSpinner() {
+    // Display the loading spinner
+    document.getElementById('loadingSpinner').style.display = 'block';
+  }
+
+  function hideLoadingSpinner() {
+    // Hide the loading spinner
+    document.getElementById('loadingSpinner').style.display = 'none';
+  }
+
+  function captureImage() {
+    const video = document.getElementById('cameraFeed');
+    const canvas = document.getElementById('photoCanvas');
+    const photoInput = document.getElementById('photoInput');
+
+    // Draw the current video frame onto the canvas
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    showLoadingSpinner();
+
+    // Convert the canvas content to a data URL representing the image
+    const imageDataUrl = canvas.toDataURL('image/jpeg');
+
+    // Convert data URL to a File object
+    const file = dataURLtoFile(imageDataUrl, 'captured_image.jpg');
+
+    // Create a FormData object and append the file to it
+    const formData = new FormData();
+    formData.append('image', file);
+
+    // Add other form data if needed
+    formData.append('instance_id', document.getElementById('instance_id').value);
+
+    // Add the CSRF token to the FormData
+    const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    formData.append('csrfmiddlewaretoken', csrfToken);
+
+    // Submit the form using fetch or another method
+    const post_url = document.getElementById('cameraForm').action
+    // console.log(post_url)
+    // console.log(csrfToken)
+    // console.log(formData)
+    fetch(post_url, {
+      method: 'POST',
+      body: formData,
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
-    
-        function captureImage() {
-          const video = document.getElementById('cameraFeed');
-          const canvas = document.getElementById('photoCanvas');
-          const photoInput = document.getElementById('photoInput');
-    
-          // Draw the current video frame onto the canvas
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-    
-          // Convert the canvas content to a data URL representing the image
-          const imageDataUrl = canvas.toDataURL('image/jpeg');
-    
-          // Set the data URL as the value of the hidden input field
-          photoInput.value = imageDataUrl;
-          
-          // Optionally display the captured image on the page
-        //   const img = new Image();
-        //   img.src = imageDataUrl;
-        //   document.body.appendChild(img);
-        }
+        return response.json(); //
+      })
+      .then(data => {
+        window.location.href = data.url; 
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      }).finally(() => {
+        hideLoadingSpinner(); // Hide loading spinner when the request is complete
+      });
+  }
 
-        document.getElementById('cameraForm').addEventListener('submit', function(event) {
-        // Execute the extra function before submitting the form
-        captureImage();
+  document.getElementById('cameraForm').addEventListener('submit', function (event) {
+    // Optionally prevent the form from submitting immediately
+    event.preventDefault();
 
-        // Optionally prevent the form from submitting immediately
-        // event.preventDefault();
-        });
+    // Execute the extra function before submitting the form
+    captureImage();
+  });
+
+  // Initialize the camera when the page loads
+  window.onload = setupCamera;
+</script>
+
+  
     
-        // Initialize the camera when the page loads
-        window.onload = setupCamera;
-      </script>
 
 {% endblock %}

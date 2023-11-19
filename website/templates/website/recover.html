@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .body {
+      background-color: #f4f4f4; /* Light gray background color */
+      color: #333; /* Dark text color */
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh; /* 100% of the viewport height */
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .wrapperLogin {
+      display: inline-block;
+      background-color: #fff; /* White background color */
+      padding: 50px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Light box shadow */
+    }
+
+    .form-boxLogin {
+      text-align: center;
+    }
+
+    h2 {
+      color: #0AA91A; /* Green color for the heading */
+    }
+
+    .input-boxLogin {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-boxLogin input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    .btnLogin {
+      background-color: #0AA91A; /* Green background color for the button */
+      color: #fff; /* White text color for the button */
+      padding: 15px 30px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+  </style>
+
+<div class="body">
+    <div class="wrapperLogin">
+        <div class="form-boxLogin login">
+            <h2 style="color: #0AA91A;">Recover Password</h2><br>
+            <form action="{% url 'recover' %}" method="POST">
+              {% csrf_token %}
+                <div class="input-boxLogin">
+                    <span class="icon"></span>
+                    <input name="email" id="email" type="email" placeholder="Enter your email" required>
+                </div><br>
+    
+                <button type="submit" class="btnLogin">Get OTP </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

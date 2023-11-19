@@ -7,4 +7,5 @@ urlpatterns = [
     path('vote/', views.vote, name='vote'),
     path('facials/', views.facial_auth, name='facials'),
     path('verify/', views.otp_verify, name='verify'),
+    path('recover/', views.recover_password, name='recover'),
 ]

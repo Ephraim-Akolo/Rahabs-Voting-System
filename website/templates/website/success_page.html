@@ -15,10 +15,6 @@
             justify-content: center;
         }
         
-        h1 {
-            color: green;
-        }
-        
         div {
             display: block;
             text-align: center;
@@ -27,7 +23,12 @@
         </style>
 
     <div id="verifySuccess" style="display: block;">
-        <h1>Verification <span class="change">successful</span></h1>
+        {% if color == 'green' %}
+        <h1 style="color: green;">{{display_message}} </h1>
+        {% else %}
+        <h1 style="color: red;">{{display_message}} </h1>
+        {% endif %}
+
     </div>
 
     <script>

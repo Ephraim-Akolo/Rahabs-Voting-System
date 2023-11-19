@@ -1,6 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.http.response import JsonResponse
+from django.contrib import messages
 from django.http import Http404
-from . import models
+from .emailing import send_otp
+from . import models, forms
 
 # Create your views here.
 
@@ -31,8 +35,16 @@ def home(request):
 
 def vote(request):
     if request.method == 'POST':
-        print(request.POST)
-        return render(request, 'website/webCam.html')
+        form = forms.VotePostForm(request.POST)
+        if form.is_valid():
+            user = models.User.objects.get(vin=form.cleaned_data['voterID'])
+            cand = models.Candidate.objects.get(name__iexact=form.cleaned_data['candidateName'], party__name = form.cleaned_data['partyName'])
+            if user.check_password(form.cleaned_data['password']):
+                accred = models.Accreditation.objects.create(user=user, candidate = cand)
+                return render(request, 'website/webCam.html', context={'accred': accred})
+        messages.add_message(request, messages.ERROR, "Had problems validating your submitted details!")
+        messages.warning(request, "Verify all details are correct.")
+        return redirect('vote')
     context = {}
     candidates = models.Candidate.objects.all()
     context['candidates'] = candidates
@@ -40,13 +52,79 @@ def vote(request):
 
 
 def facial_auth(request):
-    if request.method == 'POST':
-        # print(request.POST)
-        return render(request, 'website/otp.html')
+    if request.method != 'POST':
+        return redirect('vote')
+    assert request.FILES
+    form = forms.UpdateImageForm(request.POST, request.FILES)
+    if not form.is_valid():
+        print("image not valid", form.error_class, form.errors)
+        return redirect('vote')
+    #TODO: FACE ID
+    form.save()
+    instance: models.Accreditation = form.instance
+    _otp, _otp_obj = models.OTP.generate_otp(instance)
+    sent, r = send_otp(instance.user.email, _otp)
+    if not sent:
+        _otp_obj.delete()
+        messages.error(request, f"could not send mail: {r}")
+        return redirect('vote')
+    dynamic_url = reverse('verify')
+    data = {
+        'url': request.build_absolute_uri(dynamic_url),
+    }
+
+    return JsonResponse(data)
     
+
 def otp_verify(request):
-    print("dkjjjjjjjjjjjjjjjj")
-    if request.method == 'POST':
-        print("otp_verify", request.POST)
-        return render(request, 'website/success_page.html')
+    if request.method != 'POST':
+        return render(request, 'website/otp.html')
+    form = forms.OTPForm(request.POST)
+    if not form.is_valid():
+        return redirect('vote')
+    otp = f"{form.cleaned_data['first']}{form.cleaned_data['second']}{form.cleaned_data['third']}{form.cleaned_data['fourth']}{form.cleaned_data['fifth']}"
+    print(otp)
+    accred = models.Accreditation.objects.get(otp__otp=otp)
+    context = {}
+    if accred.otp.is_valid():
+        _voted = models.Election.objects.create(user=accred.user, candidate=accred.candidate)
+        context['display_message'] = f'{_voted.user.username} Vote Casted for {_voted.candidate.name} Successfully!'
+        context['color'] = 'green'
+    else:
+        context['color'] = 'red'
+        context['display_message'] = ' OTP Verification Failed!'
+    return render(request, 'website/success_page.html', context=context)
+
+
+def recover_password(request):
+    if request.method == "POST":
+        form = forms.EmailForm(request.POST)
+        if form.is_valid():
+            user = models.User.objects.get(email=form.cleaned_data['email'])
+            _otp, _otp_obj = models.OTP.generate_otp(user)
+            sent, r = send_otp(user.email, _otp)
+            if sent: 
+                messages.info(request, "An OTP has been sent to your mail!")
+                return render(request, 'website/recover_password.html', context={"recover_pasword": True})
+            messages.error(request, f"could not send mail: {r}")
+            print(r)
+            _otp_obj.delete()
+            return redirect('recover')
+        form = forms.RecoverPasswordForm(request.POST)
+        if form.is_valid():
+            otp = models.OTP.objects.get(otp=form.cleaned_data['otp'])
+            if otp.is_valid():
+                user = otp.user
+                user.set_password(form.cleaned_data['password'])
+                otp.delete()
+                user.save()
+                messages.info(request, "password changed Successfully!")
+                return redirect('home')
+            else:
+                otp.delete()
+                messages.error(request, "OTP not valid or expired!")
+        else:
+            messages.error(request, "form validation failed!")
+            messages.info(request, "Verify passwords fields!")
+    return render(request, "website/recover.html")
 
