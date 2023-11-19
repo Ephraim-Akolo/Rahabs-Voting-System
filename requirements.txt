@@ -11,3 +11,5 @@ pytz
 sqlparse
 typing_extensions
 whitenoise
+requests
+
