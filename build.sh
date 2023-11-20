@@ -2,6 +2,8 @@
 # exit on error
 set -o errexit
 
+apt update -y && apt install libgl1 -y
+pip install --upgrade pip
 pip install -r requirements.txt
 
 python manage.py collectstatic --no-input
