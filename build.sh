@@ -4,7 +4,9 @@ set -o errexit
 
 apt update -y && apt install libgl1 -y
 pip install --upgrade pip
-pip install "git+https://github.com/sachadee/Dlib.git"
+apt install curl -y
+curl -o . https://github.com/sachadee/Dlib/blob/main/dlib-19.22.99-cp37-cp37m-win_amd64.whl
+pip install ./dlib-19.22.99-cp37-cp37m-win_amd64.whl
 pip install -r requirements.txt
 
 python manage.py collectstatic --no-input
