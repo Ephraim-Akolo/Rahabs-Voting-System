@@ -4,7 +4,7 @@ set -o errexit
 
 apt update -y && apt install libgl1 -y && apt install curl -y
 pip install --upgrade pip
-curl -o . https://github.com/sachadee/Dlib/blob/main/dlib-19.22.99-cp37-cp37m-win_amd64.whl
+curl -o ./dlib-19.22.99-cp37-cp37m-win_amd64.whl https://github.com/sachadee/Dlib/blob/main/dlib-19.22.99-cp37-cp37m-win_amd64.whl
 pip install ./dlib-19.22.99-cp37-cp37m-win_amd64.whl
 rm ./dlib-19.22.99-cp37-cp37m-win_amd64.whl
 pip install -r requirements.txt
