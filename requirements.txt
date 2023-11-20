@@ -12,4 +12,6 @@ sqlparse
 typing_extensions
 whitenoise
 requests
+opencv-python
+face_recognition
 

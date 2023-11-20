@@ -172,12 +172,17 @@
         return response.json(); //
       })
       .then(data => {
-        window.location.href = data.url; 
+        if (data.success) {
+          window.location.href = data.url; 
+        } else {
+          location.reload();
+          // alert('Accesss Was Denied!');
+        }
       })
       .catch((error) => {
         console.error('Error:', error);
       }).finally(() => {
-        hideLoadingSpinner(); // Hide loading spinner when the request is complete
+        hideLoadingSpinner(); 
       });
   }
 

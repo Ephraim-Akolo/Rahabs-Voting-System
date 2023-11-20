@@ -1,9 +1,11 @@
+import cv2, face_recognition
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http.response import JsonResponse
 from django.contrib import messages
 from django.http import Http404
 from .emailing import send_otp
+from .cv import face_in_frame
 from . import models, forms
 
 # Create your views here.
@@ -15,7 +17,6 @@ def home(request):
     options = ['Date', "State", "Party"]
     selected = 1
     if request.method == "POST" and 'filter' in request.POST:
-        # print("KKKKKKKKK", request.POST)
         if request.POST.get('filter').lower()=='date':
             election = models.Election.objects.all().order_by('-date')
         elif request.POST.get('filter').lower()=='state':
@@ -62,17 +63,32 @@ def facial_auth(request):
     #TODO: FACE ID
     form.save()
     instance: models.Accreditation = form.instance
+    print(instance.image.path, instance.user.image)
+    # image1, image2 = cv2.imread(instance.user.image.path), cv2.imread(instance.image.path)
+    image1 = face_recognition.load_image_file(instance.user.image.path)
+    image2 = face_recognition.load_image_file(instance.image.path)
+    image1_encodings = face_recognition.face_encodings(image1)
+    image2_encodings = face_recognition.face_encodings(image2)
+    if not len(image1_encodings):
+        messages.error(request, f"Could not fetch image from {instance.user.image.path}!")
+        return JsonResponse({'success': False}) 
+    if not len(image2_encodings):
+        messages.error(request, f"Could not fetch image from {instance.image.path}!")
+        return JsonResponse({'success': False}) 
+    results = face_recognition.compare_faces([image1_encodings[0]], image2_encodings[0], tolerance=.4)
+    print(results)
+    if not results[0]:
+        messages.error(request, f"Authorization Failed. Facial features mismatch!")
+        return JsonResponse({'success': False})
+
     _otp, _otp_obj = models.OTP.generate_otp(instance)
-    sent, r = send_otp(instance.user.email, _otp)
+    sent, r = True, ''#send_otp(instance.user.email, _otp)
     if not sent:
         _otp_obj.delete()
         messages.error(request, f"could not send mail: {r}")
-        return redirect('vote')
-    dynamic_url = reverse('verify')
-    data = {
-        'url': request.build_absolute_uri(dynamic_url),
-    }
-
+        return JsonResponse({'success': True, 'url': request.build_absolute_uri(reverse('vote')),})
+    messages.info(request, 'Image has been accepted and authorized!')
+    data = {'success': True, 'url': request.build_absolute_uri(reverse('verify')),}
     return JsonResponse(data)
     
 
@@ -83,7 +99,6 @@ def otp_verify(request):
     if not form.is_valid():
         return redirect('vote')
     otp = f"{form.cleaned_data['first']}{form.cleaned_data['second']}{form.cleaned_data['third']}{form.cleaned_data['fourth']}{form.cleaned_data['fifth']}"
-    print(otp)
     accred = models.Accreditation.objects.get(otp__otp=otp)
     context = {}
     if accred.otp.is_valid():
