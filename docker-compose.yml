@@ -1,0 +1,13 @@
+
+version: '3'
+
+services:
+  web:
+    build: .
+    # command: bash -c 'python manage.py collectstatic --no-input && python manage.py makemigrations && python manage.py migrate && echo "from django.contrib.auth import get_user_model; import os; password = os.getenv('DJANGO_SUPERUSER_PASSWORD'); user_name = os.getenv('DJANGO_SUPERUSER_USERNAME'); email = os.getenv('DJANGO_SUPERUSER_EMAIL'); User = get_user_model(); True if User.objects.filter(email=email) else User.objects.create_superuser(user_name, email, password)" | python manage.py shell && python manage.py runserver 0.0.0.0:8000'
+    command: ./build.sh
+    container_name: RAHAB-VOTING-SYSTEM
+    volumes:
+      - .:/RAHAB-VOTING-SYSTEM
+    ports:
+      - "8000:8000"
