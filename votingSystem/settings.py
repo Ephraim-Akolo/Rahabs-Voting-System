@@ -33,7 +33,9 @@ SECRET_KEY = 'django-insecure-p(7-+su=!^(vs2d6kl806v_7$$f&no%4+_o@5@iz!0elw(kuxj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['1dd5-197-210-227-133.ngrok-free.app', 'localhost']
+CSRF_TRUSTED_ORIGINS = ["https://1dd5-197-210-227-133.ngrok-free.app"]
+
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)

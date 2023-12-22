@@ -40,11 +40,12 @@ def vote(request):
         if form.is_valid():
             user = models.User.objects.get(vin=form.cleaned_data['voterID'])
             cand = models.Candidate.objects.get(name__iexact=form.cleaned_data['candidateName'], party__name = form.cleaned_data['partyName'])
-            if user.check_password(form.cleaned_data['password']):
+            voted = models.Election.objects.filter(user=user)
+            if user.check_password(form.cleaned_data['password']) and not voted:
                 accred = models.Accreditation.objects.create(user=user, candidate = cand)
                 return render(request, 'website/webCam.html', context={'accred': accred})
-        messages.add_message(request, messages.ERROR, "Had problems validating your submitted details!")
-        messages.warning(request, "Verify all details are correct.")
+        messages.add_message(request, messages.ERROR, "Had problems validating your submitted details!" if not voted else "You have already voted the Candidate of your choice!")
+        # messages.warning(request, "Verify all details are correct.")
         return redirect('vote')
     context = {}
     candidates = models.Candidate.objects.all()
@@ -73,7 +74,7 @@ def facial_auth(request):
         messages.error(request, f"Could not fetch image from {instance.user.image.path}!")
         return JsonResponse({'success': False}) 
     if not len(image2_encodings):
-        messages.error(request, f"Could not fetch image from {instance.image.path}!")
+        messages.error(request, f"Could not your face in the image! {instance.image.path}!")
         return JsonResponse({'success': False}) 
     results = face_recognition.compare_faces([image1_encodings[0]], image2_encodings[0], tolerance=.4)
     print(results)
@@ -82,7 +83,7 @@ def facial_auth(request):
         return JsonResponse({'success': False})
 
     _otp, _otp_obj = models.OTP.generate_otp(instance)
-    sent, r = True, ''#send_otp(instance.user.email, _otp)
+    sent, r = send_otp(instance.user.email, _otp)
     if not sent:
         _otp_obj.delete()
         messages.error(request, f"could not send mail: {r}")
