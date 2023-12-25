@@ -1,5 +1,5 @@
 import cv2, face_recognition
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http.response import JsonResponse
 from django.contrib import messages
@@ -38,8 +38,8 @@ def vote(request):
     if request.method == 'POST':
         form = forms.VotePostForm(request.POST)
         if form.is_valid():
-            user = models.User.objects.get(vin=form.cleaned_data['voterID'])
-            cand = models.Candidate.objects.get(name__iexact=form.cleaned_data['candidateName'], party__name = form.cleaned_data['partyName'])
+            user = get_object_or_404(models.User, vin=form.cleaned_data['voterID'])
+            cand = get_object_or_404(models.Candidate, name__iexact=form.cleaned_data['candidateName'], party__name = form.cleaned_data['partyName'])
             voted = models.Election.objects.filter(user=user)
             if user.check_password(form.cleaned_data['password']) and not voted:
                 accred = models.Accreditation.objects.create(user=user, candidate = cand)
@@ -100,7 +100,7 @@ def otp_verify(request):
     if not form.is_valid():
         return redirect('vote')
     otp = f"{form.cleaned_data['first']}{form.cleaned_data['second']}{form.cleaned_data['third']}{form.cleaned_data['fourth']}{form.cleaned_data['fifth']}"
-    accred = models.Accreditation.objects.get(otp__otp=otp)
+    accred = get_object_or_404(models.Accreditation, otp__otp=otp)
     context = {}
     if accred.otp.is_valid():
         _voted = models.Election.objects.create(user=accred.user, candidate=accred.candidate)
@@ -116,7 +116,7 @@ def recover_password(request):
     if request.method == "POST":
         form = forms.EmailForm(request.POST)
         if form.is_valid():
-            user = models.User.objects.get(email=form.cleaned_data['email'])
+            user = get_object_or_404(models.User, email=form.cleaned_data['email'])
             _otp, _otp_obj = models.OTP.generate_otp(user)
             sent, r = send_otp(user.email, _otp)
             if sent: 
@@ -128,7 +128,7 @@ def recover_password(request):
             return redirect('recover')
         form = forms.RecoverPasswordForm(request.POST)
         if form.is_valid():
-            otp = models.OTP.objects.get(otp=form.cleaned_data['otp'])
+            otp = get_object_or_404(models.OTP, otp=form.cleaned_data['otp'])
             if otp.is_valid():
                 user = otp.user
                 user.set_password(form.cleaned_data['password'])
