@@ -31,10 +31,10 @@ AUTH_USER_MODEL = 'website.User'
 SECRET_KEY = 'django-insecure-p(7-+su=!^(vs2d6kl806v_7$$f&no%4+_o@5@iz!0elw(kuxj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'RENDER' not in os.environ
+DEBUG = os.environ['DEBUG']
 
-ALLOWED_HOSTS = ['1dd5-197-210-227-133.ngrok-free.app', 'localhost']
-CSRF_TRUSTED_ORIGINS = ["https://1dd5-197-210-227-133.ngrok-free.app"]
+ALLOWED_HOSTS = ['34.205.227.79', 'localhost']
+CSRF_TRUSTED_ORIGINS = ["https://34.205.227.79"]
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -74,7 +74,7 @@ ROOT_URLCONF = 'votingSystem.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -142,10 +142,11 @@ if not DEBUG:
     # Turn on WhiteNoise storage backend that takes care of compressing static files
     # and creating unique names for each version so they can safely be cached forever.
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+else:
+    
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static'
+    ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
